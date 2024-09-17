@@ -88,12 +88,43 @@ if __name__ == '__main__':
         df_data = []
         flag = None
 
+        msg_header = bin_data.read(1)
         while True:
-            msg_header = bin_data.read(1)
+            # msg_header = bin_data.read(1)
             if not msg_header:
                 break
-            
-            if msg_header == b'P':
+
+            if msg_header == b"S":
+                bin_data.read(11)
+            elif msg_header == b"R":
+                bin_data.read(38)
+            elif msg_header == b"H":
+                bin_data.read(24)
+            elif msg_header == b"Y":
+                bin_data.read(19)
+            elif msg_header == b"L":
+                bin_data.read(25)
+            elif msg_header == b"V":
+                bin_data.read(34)
+            elif msg_header == b"W":
+                bin_data.read(11)
+            elif msg_header == b"K":
+                bin_data.read(27)
+            elif msg_header == b"A":
+                bin_data.read(35)
+            elif msg_header == b"F":
+                bin_data.read(39)
+            elif msg_header == b"E":
+                bin_data.read(30)
+            elif msg_header == b"C":
+                bin_data.read(35)
+            elif msg_header == b"X":
+                bin_data.read(22)
+            elif msg_header == b"D":
+                bin_data.read(18)
+            elif msg_header == b"U":
+                bin_data.read(34)
+            elif msg_header == b"P":
                 try:
                     readable_data, hour = parse_trade_message(bin_data)
 
@@ -122,7 +153,17 @@ if __name__ == '__main__':
                 except Exception as e:
                     logging.info(f"Error parsing message: {e}")
 
+            elif msg_header == b"Q":
+                bin_data.read(39)
+            elif msg_header == b"B":
+                bin_data.read(18)
+            elif msg_header == b"I":
+                bin_data.read(49)
+            elif msg_header == b"N":
+                bin_data.read(19)
+
             pbar.update(1)
+            msg_header = bin_data.read(1)
 
         # Process the last batch of data after the loop
         if temp_data:
